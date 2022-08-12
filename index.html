@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="box">
+        <div class="inputBox">
+            <input type="password" id="pswrd" placeholder="密码" onkeyup="checkPassword(this.value)">
+            <span id="toggleBtn"></span>
+        </div>
+        <div class="checkinputBox">
+            <input type="password" id="pswrd" placeholder="请确认密码" onkeyup="recheckPassword(this.value)">
+            <span id="toggleBtn"></span>
+        </div>
+        <div class="validation">
+            <ul>
+                <li id="lower">至少有一个小写字母</li>
+                <li id="upper">至少有一个大写字母</li>
+                <li id="number">至少有一个数字</li>
+                <li id="special">至少有一个特殊字符</li>
+                <li id="length">至少有8个字符</li>
+                <li id="recheck">两次输入密码不一致</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        let pswrds = document.querySelectorAll('#pswrd')
+        let toggleBtns = document.querySelectorAll('#toggleBtn')
+        let lowerCase = document.getElementById('lower')
+        let upperCase = document.getElementById('upper')
+        let numberCase = document.getElementById('number')
+        let specialCase = document.getElementById('special')
+        let minLength = document.getElementById('length')
+        let reCheck = document.getElementById('recheck')
+
+        let pwd
+
+        //检查密码
+        function checkPassword(data) {
+
+            pwd = data;
+
+            //确定正则判断
+            const lower = new RegExp('(?=.*[a-z])')
+            const upper = new RegExp('(?=.*[A-Z])')
+            const number = new RegExp('(?=.*[0-9])')
+            const special = new RegExp('(?=.*[!@#\$%\^&\*])')
+            const length = new RegExp('(?=.{8,})')
+
+            //小写字母判断
+            if (lower.test(data)) {
+                lowerCase.classList.add('valid')
+            } else {
+                lowerCase.classList.remove('valid')
+            }
+
+            //大写字母判断 
+            if (upper.test(data)) {
+                upperCase.classList.add('valid')
+            } else {
+                upperCase.classList.remove('valid')
+            }
+
+            //数字判断
+            if (number.test(data)) {
+                numberCase.classList.add('valid')
+            } else {
+                numberCase.classList.remove('valid')
+            }
+
+            //特殊字符判断
+            if (special.test(data)) {
+                specialCase.classList.add('valid')
+            } else {
+                specialCase.classList.remove('valid')
+            }
+
+            //长度判断
+            if (length.test(data)) {
+                minLength.classList.add('valid')
+            } else {
+                minLength.classList.remove('valid')
+            }
+
+        }
+
+        //检查确认密码
+        function recheckPassword(data) {
+            if(data ===''){
+                reCheck.classList.remove('valid')
+            }
+            else if (data === pwd) {
+                reCheck.classList.add('valid')
+            } else {
+                reCheck.classList.remove('valid')
+            }
+        }
+
+        //控制密码框输入和隐藏
+
+
+        for (let i = 0; i < toggleBtns.length; i++) {
+            toggleBtns[i].onclick = function () {
+                if (pswrd[i].type === 'password') {
+                    pswrd[i].setAttribute('type', 'text')
+                    toggleBtns[i].classList.add('hide')
+                } else {
+                    pswrd[i].setAttribute('type', 'password')
+                    toggleBtns[i].classList.remove('hide')
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>
